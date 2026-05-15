@@ -8,6 +8,7 @@
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
+    "start": "npx wrangler dev dist/server/index.js --config dist/server/wrangler.json --port ${PORT:-3000} --ip 0.0.0.0",
     "lint": "eslint .",
     "format": "prettier --write ."
   },
