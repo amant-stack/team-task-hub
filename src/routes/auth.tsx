@@ -105,6 +105,41 @@ function AuthPage() {
                     {busy && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}Log in
                   </Button>
                 </form>
+                <div className="mt-4 rounded-lg border border-dashed bg-muted/40 p-4 text-center space-y-2">
+                  <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">Demo Account</p>
+                  <div className="text-sm space-y-1">
+                    <div className="flex items-center justify-center gap-2">
+                      <span className="text-muted-foreground">Email:</span>
+                      <code className="text-xs bg-background px-1.5 py-0.5 rounded">{DEMO_EMAIL}</code>
+                    </div>
+                    <div className="flex items-center justify-center gap-2">
+                      <span className="text-muted-foreground">Password:</span>
+                      <code className="text-xs bg-background px-1.5 py-0.5 rounded">{DEMO_PASSWORD}</code>
+                    </div>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="w-full mt-2"
+                    onClick={async () => {
+                      setLoginEmail(DEMO_EMAIL);
+                      setLoginPassword(DEMO_PASSWORD);
+                      setBusy(true);
+                      const { error } = await signIn(DEMO_EMAIL, DEMO_PASSWORD);
+                      setBusy(false);
+                      if (error) {
+                        toast.error(error);
+                      } else {
+                        toast.success("Welcome, Demo User");
+                        navigate({ to: "/dashboard" });
+                      }
+                    }}
+                    disabled={busy}
+                  >
+                    {busy && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    Use Demo Account
+                  </Button>
+                </div>
               </TabsContent>
               <TabsContent value="signup">
                 <form onSubmit={handleSignup} className="space-y-4 pt-2">
