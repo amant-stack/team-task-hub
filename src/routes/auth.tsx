@@ -36,7 +36,11 @@ function AuthPage() {
     const { error } = await signIn(loginEmail, loginPassword);
     setBusy(false);
     if (error) {
-      toast.error(error);
+      if (error.toLowerCase().includes("invalid login credentials")) {
+        toast.error("No account found with these credentials. Please sign up first.");
+      } else {
+        toast.error(error);
+      }
     } else {
       toast.success("Welcome back");
       navigate({ to: "/dashboard" });
@@ -63,7 +67,7 @@ function AuthPage() {
   return (
     <div className="grid min-h-screen lg:grid-cols-2">
       <div className="hidden lg:flex flex-col justify-between bg-gradient-to-br from-primary to-primary/70 p-12 text-primary-foreground">
-        <div className="text-2xl font-bold tracking-tight">TeamTasks</div>
+        <div className="text-2xl font-bold tracking-tight">Baki Task</div>
         <div className="space-y-6">
           <h1 className="text-4xl font-bold leading-tight">
             Run projects.<br/>Ship together.
@@ -77,12 +81,12 @@ function AuthPage() {
             ))}
           </ul>
         </div>
-        <div className="text-xs text-primary-foreground/60">© TeamTasks</div>
+        <div className="text-xs text-primary-foreground/60">© Baki Task</div>
       </div>
       <div className="flex items-center justify-center p-6">
         <Card className="w-full max-w-md">
           <CardHeader>
-            <CardTitle>Welcome to TeamTasks</CardTitle>
+            <CardTitle>Welcome to Baki Task</CardTitle>
             <CardDescription>Sign in or create an account to get started.</CardDescription>
           </CardHeader>
           <CardContent>
@@ -125,7 +129,18 @@ function AuthPage() {
                       setLoginEmail(DEMO_EMAIL);
                       setLoginPassword(DEMO_PASSWORD);
                       setBusy(true);
-                      const { error } = await signIn(DEMO_EMAIL, DEMO_PASSWORD);
+                      let { error } = await signIn(DEMO_EMAIL, DEMO_PASSWORD);
+                      // Auto-create the demo account if it doesn't exist yet
+                      if (error && error.toLowerCase().includes("invalid login credentials")) {
+                        const signUpResult = await signUp("Demo User", DEMO_EMAIL, DEMO_PASSWORD);
+                        if (!signUpResult.error) {
+                          // Retry login after sign-up
+                          const retryResult = await signIn(DEMO_EMAIL, DEMO_PASSWORD);
+                          error = retryResult.error;
+                        } else {
+                          error = signUpResult.error;
+                        }
+                      }
                       setBusy(false);
                       if (error) {
                         toast.error(error);
