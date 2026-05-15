@@ -23,9 +23,9 @@ COPY --from=build /app/package-lock.json ./
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/wrangler.jsonc ./
 
-# Railway provides PORT env var
+# Railway provides PORT env var dynamically
 ENV PORT=3000
-EXPOSE 3000
 
 # Use wrangler to serve the Workers build locally
-CMD ["npx", "wrangler", "dev", "dist/server/index.js", "--config", "dist/server/wrangler.json", "--port", "3000", "--ip", "0.0.0.0"]
+# Execute as a shell command so ${PORT} is evaluated correctly
+CMD npx wrangler dev dist/server/index.js --config dist/server/wrangler.json --port ${PORT} --ip 0.0.0.0
