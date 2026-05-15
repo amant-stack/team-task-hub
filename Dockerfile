@@ -1,5 +1,5 @@
 # Railway Dockerfile for Baki Task (TanStack Start + Cloudflare Workers)
-FROM node:20-alpine AS build
+FROM node:22-alpine AS build
 
 WORKDIR /app
 
@@ -12,7 +12,7 @@ COPY . .
 RUN npm run build
 
 # Production image
-FROM node:20-alpine AS production
+FROM node:22-alpine AS production
 
 WORKDIR /app
 
