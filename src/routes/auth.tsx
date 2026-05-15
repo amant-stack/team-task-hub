@@ -13,6 +13,9 @@ export const Route = createFileRoute("/auth")({
   component: AuthPage,
 });
 
+const DEMO_EMAIL = "demo@teamtasks.app";
+const DEMO_PASSWORD = "DemoUser2024!Secure";
+
 function AuthPage() {
   const { user, loading, signIn, signUp } = useAuth();
   const navigate = useNavigate();
