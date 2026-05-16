@@ -169,15 +169,14 @@ git push origin main
 
 1. Go to [railway.app](https://railway.app) and create a new project
 2. Select **"Deploy from GitHub repo"** and connect your repository
-3. Add these environment variables in the Railway dashboard:
+3. Railway will automatically build the project using the included `Dockerfile` and `package.json` configurations (Node 22 is required and pre-configured).
+4. Add these environment variables in the Railway dashboard:
    - `SUPABASE_URL`
    - `SUPABASE_PUBLISHABLE_KEY`
    - `VITE_SUPABASE_URL`
    - `VITE_SUPABASE_PUBLISHABLE_KEY`
    - `VITE_SUPABASE_PROJECT_ID`
-4. Set the build command: `npm run build`
-5. Set the start command: `npm run preview`
-6. Railway will auto-deploy and provide a public URL
+5. Generate a public domain in the Networking settings. Railway will auto-deploy and provide your live URL.
 
 ### 3. Verify Deployment
 
